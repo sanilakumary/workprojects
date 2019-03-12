@@ -1,39 +1,88 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
-using ExpenseCalculatorWebApi.ExpenseCalculatorBusinessLogic;
-using ExpenseCalculatorWebApi.BusinessObjects;
-using ExpenseCalculatorWebApi.Common;
-using ExpenseCalculatorWebApi.ExpenseCalculatorDataAccess;
+﻿using System.Web.Mvc;
+using ExpenseCalculatorPresentation.ViewModel;
+using ExpenseCalculatorPresentation.Models;
+using System.Configuration;
+using System;
+using System.Globalization;
 
-namespace ExpenseCalculatorWebApi.Controllers
+namespace ExpenseCalculatorPresentation.Controllers
 {
-    public class ReportController : ApiController
+    public class ReportController : Controller
     {
-        private IExpenseCalculator _expenseCalculator = new ExpenseCalculator(new ExpenseCalculatorRepository());
-        [HttpGet]
-        public List<ReportType> GetReportTypes()
+        // GET: Report
+        private string _url = ConfigurationManager.AppSettings["Url"].ToString();
+        public ActionResult Index()
         {
-            List<ReportType> reportCollection = new List<ReportType>();
-
-            try
-            {
-                reportCollection = _expenseCalculator.GetReportTypes();
-
-            }
-            catch (ApplicationException ex)
-            {
-                throw new HttpResponseException(new HttpResponseMessage { StatusCode = HttpStatusCode.BadRequest, ReasonPhrase = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                throw new HttpResponseException(new HttpResponseMessage { StatusCode = HttpStatusCode.BadGateway, ReasonPhrase = ex.Message });
-            }
-
-            return reportCollection;
+            var model = new ReportViewModel();
+            var reportTypeClient = new ReportClient();
+            model.ReportTypes = reportTypeClient.GetReportTypes();
+            var expenseTypeClient = new ExpenseDataClient(_url);
+            model.ExpenseTypes = expenseTypeClient.GetExpenseTypes();
+            return View ("GetReport",model);
+            
         }
+
+        [HttpPost]
+        public ActionResult GetReports()
+        {
+            var model = new ReportViewModel();
+            
+            var startDate = new DateTime();
+            var endDate = new DateTime();
+            
+
+            var expenseTypeId = Convert.ToInt32(Request.Form["ddlExpense"]);
+            var reportType = Request.Form["ddlReport"];
+            
+
+            switch (reportType)
+            {
+                case "MM":
+                    startDate = Convert.ToDateTime(DateTime.Now.Month.ToString() + "/1/" + DateTime.Now.Year.ToString());
+                    endDate = Convert.ToDateTime(DateTime.Now.ToShortDateString());
+                    break;
+
+                case "YY":
+                    startDate = Convert.ToDateTime("1/1/" + DateTime.Now.Year.ToString());
+                    endDate = Convert.ToDateTime(DateTime.Now.ToShortDateString());
+                    break;
+
+                case "QQ":
+                    startDate = Convert.ToDateTime(DateTime.Now.AddMonths(-3).Month.ToString() + "/1/" + DateTime.Now.Year.ToString());
+                    endDate = Convert.ToDateTime(DateTime.Now.ToShortDateString());
+                    break;
+
+                case "MD":
+                    startDate = Convert.ToDateTime(DateTime.Now.Month.ToString() + "/1/" + DateTime.Now.Year.ToString());
+                    endDate = Convert.ToDateTime(DateTime.Now.ToShortDateString());
+                    break;
+
+                case "YD":
+                    startDate = Convert.ToDateTime("1/1/" + DateTime.Now.Year.ToString());
+                    endDate = Convert.ToDateTime(DateTime.Now.ToShortDateString());
+                    break;
+
+                case "OO":
+                    startDate = Convert.ToDateTime(Request.Form["StartDate"]).ToUniversalTime(); 
+                    endDate = Convert.ToDateTime(Request.Form["EndDate"]).ToUniversalTime(); 
+                    break;
+                default:
+                    throw new ArgumentException($"Report Type '{reportType}' not supported.");
+
+            }
+
+
+           // Response.Redirect("~/Reports/ReportDetails.aspx?expType=" + expType + "&startDate=" + startDate + "&endDate=" + endDate);
+            //adding code above
+            
+            var expenseDataClient = new ExpenseDataClient(_url);
+            model.ExpenseData = expenseDataClient.GetExpenses(expenseTypeId, startDate, endDate);
+
+            return View("Details", model);
+            
+
+        }
+        
+       
     }
 }

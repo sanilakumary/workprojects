@@ -1,0 +1,121 @@
+﻿
+@using GridMvc.Html
+
+    @model ExpenseCalculatorPresentation.ViewModel.ReportViewModel
+
+
+    @{
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+    
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+       
+
+        $(document).ready(function () {
+            var result = [];
+            $('table tr').each(function () {
+                $('td', this).each(function (index, val) {
+                    if (!result[index]) result[index] = 0;
+                    //there are 4 columns in result set
+                    if (index == 3)
+                        result[index] += parseFloat($(val).text());
+                });
+            });
+
+            $('table').append('<tr></tr>');
+            if (result != null && result.length > 3)
+                $('table tr').last().append('<td></td><td></td><td></td><td>' + result[3] + '</td>');
+        });
+    </script>
+
+
+<h2>Report Details</h2>
+
+    @{
+
+
+        @Html.AntiForgeryToken()
+        
+
+            <table>
+                <tbody>
+                    <tr>
+                        <th>ExpenseTypeName</th>
+                        <th>StoreName</th>
+                        <th>Date of Expense</th>
+                        <th>Amount</th>
+                    </tr>
+                    @if (Model != null)
+                    {
+                        foreach (var items in Model.ExpenseData)
+                        {
+
+                            <tr>
+                                <td>
+
+                                    @items.expenseTypeName
+                                </td>
+                                <td>@items.purchaseStoreName</td>
+
+                                <td>@items.expenseDate</td>
+
+                                <td>@items.spentAmount</td>
+
+                            </tr>
+
+
+
+                        }
+                    }
+                </tbody>
+                <tr>@Html.ActionLink("Back", "Home", "ExpenseCalculator")</tr>
+            </table>
+            
+           
+            //adding mvc grid
+
+
+            @*@using GridMvc.Html
+
+                 <div class="code-cut">
+                     @if (Model != null)
+                     {
+                         foreach (var i in Model.ExpenseData)
+                         {
+
+                         @Html.Grid().Columns(columns =>
+                         {
+
+                        columns.Add(@i.expenseTypeName).Titled("ExpenseTypeName").Filterable(true);
+                        columns.Add(@i.purchaseStoreName).Titled("StoreName").Filterable(true);
+                        columns.Add(@i.expenseDate).Titled("ExpenseDate").Filterable(true);
+                        columns.Add(@i.spentAmount).Titled("Amount").Filterable(true);
+
+                        columns.Add()
+                        .Encoded(false)
+                        .Sanitized(false)
+                        .SetWidth(30)
+                        .RenderValueAs(o => Html.ActionLink("Edit", "Edit", new { id = i.expenseDataId }));
+
+                }).WithPaging(3).Sortable(true).WithGridItemsCount("Total Personal")
+
+
+
+                     }
+                 </div>*@
+
+            //end mvc grid code
+
+
+            }
+
+
+
+
+
+

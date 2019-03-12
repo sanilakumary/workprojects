@@ -1,203 +1,109 @@
-﻿using System;
+﻿
+using System.Web.Mvc;
+using ExpenseCalculatorPresentation.ViewModel;
+using ExpenseCalculatorPresentation.Models;
+using System.Configuration;
+using System;
+using System.Globalization;
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
-using ExpenseCalculatorWebApi.ExpenseCalculatorBusinessLogic;
-using ExpenseCalculatorWebApi.BusinessObjects;
-using ExpenseCalculatorWebApi.Common;
-using ExpenseCalculatorWebApi.ExpenseCalculatorDataAccess;
 
-namespace ExpenseCalculatorWebApi.Controllers
+namespace ExpenseCalculatorPresentation.Controllers
 {
-    public class ExpenseCalculatorController : ApiController
+    public class ExpenseCalculatorController : Controller
     {
-        private IExpenseCalculator _expenseCalculator = new ExpenseCalculator(new ExpenseCalculatorRepository());
-           
+        // GET: ExpenseCalculatorView
+        private string _url = ConfigurationManager.AppSettings["Url"].ToString();
+        public ActionResult Home()
+        {
+            return View("Home");
+        }
+        public ActionResult Index()
+        {
+            var model = new ExpenseCalculatorViewModel();
+            var expenseTypeClient = new ExpenseDataClient(_url);
+            model.ExpenseTypes = expenseTypeClient.GetExpenseTypes();
             
-        [HttpGet]
-        public List<ExpenseData> GetExpenses(DateTime startDate, DateTime endDate)
-        {
-            List<ExpenseData> expenseCollection = new List<ExpenseData>();
+            var storeClient = new StoreClient();
+            model.Stores = storeClient.GetStores(); 
 
-            try
-            {
-                expenseCollection = _expenseCalculator.GetExpenses(startDate, endDate);
-
-            }
-            catch (ApplicationException ex)
-            {
-                throw new HttpResponseException(new HttpResponseMessage { StatusCode = HttpStatusCode.BadRequest, ReasonPhrase = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                throw new HttpResponseException(new HttpResponseMessage { StatusCode = HttpStatusCode.BadGateway, ReasonPhrase = ex.Message });
-            }
-
-            return expenseCollection;
-
+            return View("Index",model);
         }
-
+       
         [HttpGet]
-        public List<ExpenseData> GetExpenses(int expType, DateTime startDate, DateTime endDate)
+        public ActionResult Get()
         {
-            List<ExpenseData> expenseCollection = new List<ExpenseData>();
-
-            try
-            {
-                expenseCollection = _expenseCalculator.GetExpenses(expType, startDate, endDate);
-
-            }
-            catch (ApplicationException ex)
-            {
-                throw new HttpResponseException(new HttpResponseMessage { StatusCode = HttpStatusCode.BadRequest, ReasonPhrase = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                throw new HttpResponseException(new HttpResponseMessage { StatusCode = HttpStatusCode.BadGateway, ReasonPhrase = ex.Message });
-            }
-
-            return expenseCollection;
-
-        }
-        [HttpGet]
-       public ExpenseData GetExpenseDetails(int id)
-        {
-            ExpenseData expenseData = new ExpenseData();
-            try
-            {
-                expenseData = _expenseCalculator.GetExpenseDetails(id);
-
-            }
-            catch (ApplicationException ex)
-            {
-                throw new HttpResponseException(new HttpResponseMessage { StatusCode = HttpStatusCode.BadRequest, ReasonPhrase = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                throw new HttpResponseException(new HttpResponseMessage { StatusCode = HttpStatusCode.BadGateway, ReasonPhrase = ex.Message });
-            }
-
-            return expenseData;
-
+            return View("Details");
         }
         [HttpPost]
-        public bool CreateExpense(ExpenseData expData)
+        public ActionResult GetExpenses()
         {
-            try
-            {
-               return _expenseCalculator.CreateExpense(expData);
-
-            }
-            catch (ApplicationException ex)
-            {
-                throw new HttpResponseException(new HttpResponseMessage { StatusCode = HttpStatusCode.BadRequest, ReasonPhrase = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                throw new HttpResponseException(new HttpResponseMessage { StatusCode = HttpStatusCode.BadGateway, ReasonPhrase = ex.Message });
-            }
+            CultureInfo ci = CultureInfo.InvariantCulture;            
+            var model = new ExpenseDataViewModel();
+            
+            var startDate = new DateTime();
+            var endDate = new DateTime();
+            startDate = Convert.ToDateTime(Request.Form["StartDate"]).ToUniversalTime();
+            endDate = Convert.ToDateTime(Request.Form["EndDate"]).ToUniversalTime();
+            var expenseDataClient = new ExpenseDataClient(_url);
+            model.ExpenseDatas = expenseDataClient.GetExpenses(startDate, endDate);
+            return View("Details",model);
         }
-        [HttpPut]
-        public string UpdateExpense(ExpenseData expData)
-        {
-            try
-            {
-                return _expenseCalculator.UpdateExpense(expData);
-
-            }
-            catch (ApplicationException ex)
-            {
-                throw new HttpResponseException(new HttpResponseMessage { StatusCode = HttpStatusCode.BadRequest, ReasonPhrase = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                throw new HttpResponseException(new HttpResponseMessage { StatusCode = HttpStatusCode.BadGateway, ReasonPhrase = ex.Message });
-            }
-
-        }
-        [HttpDelete]
-        public string DeleteExpense(int id)
-        {
-            try
-            {
-                return _expenseCalculator.DeleteExpense(id);
-
-            }
-            catch (ApplicationException ex)
-            {
-                throw new HttpResponseException(new HttpResponseMessage { StatusCode = HttpStatusCode.BadRequest, ReasonPhrase = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                throw new HttpResponseException(new HttpResponseMessage { StatusCode = HttpStatusCode.BadGateway, ReasonPhrase = ex.Message });
-            }
-
-        }
-        [Route("api/ExpenseCalculator/types")]
         [HttpGet]
-        public List<ExpenseType> GetExpenseTypes()
+        public ActionResult Create()
         {
-            List<ExpenseType> expenseTypeCollection = new List<ExpenseType>();
-
-            try
-            {
-                expenseTypeCollection = _expenseCalculator.GetExpenseTypes();
-
-            }
-            catch (ApplicationException ex)
-            {
-                throw new HttpResponseException(new HttpResponseMessage { StatusCode = HttpStatusCode.BadRequest, ReasonPhrase = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                throw new HttpResponseException(new HttpResponseMessage { StatusCode = HttpStatusCode.BadGateway, ReasonPhrase = ex.Message });
-            }
-
-            return expenseTypeCollection;
+            return View("Create");
         }
-        //[HttpGet]
-        //public List<Store> GetStores()
+        [HttpPost]
+        public ActionResult Create(ExpenseCalculatorViewModel model)
+        {
+            var expenseDataClient = new ExpenseDataClient(_url);
+            model.ExpenseDatas.expenseTypeId = Convert.ToInt32(Request.Form["ddlExpense"]);
+            model.ExpenseDatas.purchaseStoreId = Convert.ToInt32(Request.Form["ddlStores"]);
+            expenseDataClient.CreateExpense(model.ExpenseDatas);
+            ViewBag.result = "Record Inserted Successfully!";
+            return RedirectToAction("Index");
+        }
+
+        //public ActionResult Delete(int id)
         //{
-        //    List<Store> storeCollection = new List<Store>();
-
-        //    try
-        //    {
-        //        storeCollection = _expenseCalculator.GetStores();
-
-        //    }
-        //    catch (ApplicationException ex)
-        //    {
-        //        throw new HttpResponseException(new HttpResponseMessage { StatusCode = HttpStatusCode.BadRequest, ReasonPhrase = ex.Message });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new HttpResponseException(new HttpResponseMessage { StatusCode = HttpStatusCode.BadGateway, ReasonPhrase = ex.Message });
-        //    }
-
-        //    return storeCollection;
+        //    ExpenseDataClient CC = new ExpenseDataClient(_url);
+        //    CC.DeleteExpense(id);
+        //    return RedirectToAction("Index");
         //}
-        //[HttpGet]
-        //public List<ReportType> GetReportTypes()
-        //{
-        //    List<ReportType> reportCollection = new List<ReportType>();
+       
+       
+        public ActionResult Delete(int id)
+        {
+            var expenseDataClient = new ExpenseDataClient(_url);
+            expenseDataClient.DeleteExpense(id);
+            return RedirectToAction("Index");
+        }
+        [HttpGet]
+        public ActionResult Edit(int id)
+        {
+            var expenseDataClient = new ExpenseDataClient(_url);
+            var model = new ExpenseCalculatorViewModel();
+            
+            model.ExpenseTypes = expenseDataClient.GetExpenseTypes();
+            var storeClient = new StoreClient();
+            model.Stores = storeClient.GetStores();
+            model.ExpenseDatas = expenseDataClient.GetExpenseDetails(id);
+            return View("Edit", model);
+        }
+        [HttpPost]
+        public ActionResult Edit(ExpenseCalculatorViewModel model)
+        {
 
-        //    try
-        //    {
-        //        reportCollection = _expenseCalculator.GetReportTypes();
-
-        //    }
-        //    catch (ApplicationException ex)
-        //    {
-        //        throw new HttpResponseException(new HttpResponseMessage { StatusCode = HttpStatusCode.BadRequest, ReasonPhrase = ex.Message });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new HttpResponseException(new HttpResponseMessage { StatusCode = HttpStatusCode.BadGateway, ReasonPhrase = ex.Message });
-        //    }
-
-        //    return reportCollection;
-        //}
+            var expenseDataClient = new ExpenseDataClient(_url);
+            model.ExpenseDatas.expenseDataId = Convert.ToInt32(Request.Form["ExpenseDataId"]);
+            model.ExpenseDatas.expenseTypeId = Convert.ToInt32(Request.Form["ExpenseTypeId"]);
+            model.ExpenseDatas.purchaseStoreId = Convert.ToInt32(Request.Form["PurchaseStoreId"]);            
+            model.ExpenseDatas.expenseDate = Convert.ToDateTime(Request.Form["DateofExpense"]).ToUniversalTime();
+            model.ExpenseDatas.spentAmount = Convert.ToInt32(Request.Form["spentAmount"]);
+            expenseDataClient.UpdateExpense(model.ExpenseDatas);
+            return RedirectToAction("Index");
+        }
+        
     }
 }

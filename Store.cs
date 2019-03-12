@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 
-namespace ExpenseCalculatorWebApi.BusinessObjects
+namespace ExpenseCalculatorPresentation.Models
 {
     public class Store
     {
-        public int storeId { get; set; }
-        public String storeName { get; set; }
+        public int StoreId { get; set; }
+        public String StoreName { get; set; }
     }
 }
