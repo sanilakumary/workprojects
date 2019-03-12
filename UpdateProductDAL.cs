@@ -14,7 +14,7 @@ namespace PCLDAL
             //errorCode = null;
             SqlConnection connection = new SqlConnection();
             //SqlConnection connection = new SqlConnection(ConfigurationManager.AppSettings["PCLBConnection"]);
-            connection.ConnectionString = @"Database=ChaseProject;Server=manoj-pc;uid=sa;pwd=password@123";
+            
 
               // Create a Database object an instantiate it by calling the CreateDatabase method of
                 // DatabaseFactory class. The method takes the connection string name as parameter.
@@ -69,7 +69,7 @@ namespace PCLDAL
             List<Category> Categories = new List<Category>();
 
             SqlConnection connection = new SqlConnection();
-            connection.ConnectionString = @"Database=ChaseProject;Server=manoj-pc;uid=sa;pwd=password@123";
+            connection.ConnectionString =
             SqlCommand cmd = new SqlCommand("SELECT * FROM Category", connection);
             //new SqlConnection(ConfigurationManager.AppSettings["PCLBConnection"])
             cmd.Connection.Open();
