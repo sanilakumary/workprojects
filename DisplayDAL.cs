@@ -17,7 +17,7 @@ namespace PCLDAL
             using (SqlConnection connection = new SqlConnection())
             {
                 connection.ConnectionString = ConfigurationManager.ConnectionStrings["PCLBConnection"].ToString();
-                //connection.ConnectionString = @"Database=ChaseProject;Server=manoj-pc;uid=sa;pwd=password@123";
+                
                 //connection.ConnectionString=ConfigurationSettings.
                 //PCLBConnection
 
@@ -50,7 +50,7 @@ namespace PCLDAL
             using (SqlConnection connection = new SqlConnection())
             {
                 connection.ConnectionString = ConfigurationManager.ConnectionStrings["PCLBConnection"].ToString();
-                //connection.ConnectionString = @"Database=ChaseProject;Server=manoj-pc;uid=sa;pwd=password@123";
+                
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandText = "GetDisplay";
@@ -81,7 +81,7 @@ namespace PCLDAL
             using (SqlConnection connection = new SqlConnection())
             {
                 connection.ConnectionString = ConfigurationManager.ConnectionStrings["PCLBConnection"].ToString();
-                //connection.ConnectionString = @"Database=ChaseProject;Server=manoj-pc;uid=sa;pwd=password@123";
+                
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.CommandText = "UpdateDisplay";
@@ -115,7 +115,7 @@ namespace PCLDAL
             using (SqlConnection connection = new SqlConnection())
             {
                 connection.ConnectionString = ConfigurationManager.ConnectionStrings["PCLBConnection"].ToString();
-                //connection.ConnectionString = @"Database=ChaseProject;Server=manoj-pc;uid=sa;pwd=password@123";
+                
                 using (SqlCommand cmd = new SqlCommand())
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -157,7 +157,7 @@ namespace PCLDAL
             using (SqlConnection connection = new SqlConnection())
             {
                 connection.ConnectionString = ConfigurationManager.ConnectionStrings["PCLBConnection"].ToString();
-                //connection.ConnectionString = @"Database=ChaseProject;Server=manoj-pc;uid=sa;pwd=password@123";
+                
                 using (SqlCommand cmd = new SqlCommand())
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -182,7 +182,7 @@ namespace PCLDAL
             using (SqlConnection connection = new SqlConnection())
             {
                 connection.ConnectionString = ConfigurationManager.ConnectionStrings["PCLBConnection"].ToString();
-                //connection.ConnectionString = @"Database=ChaseProject;Server=manoj-pc;uid=sa;pwd=password@123";
+                
                 SqlCommand cmd = new SqlCommand("SELECT ProdModId FROM Display", connection);
                 //new SqlConnection(ConfigurationManager.AppSettings["PCLBConnection"])
                 cmd.Connection.Open();
