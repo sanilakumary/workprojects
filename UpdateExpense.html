@@ -1,0 +1,197 @@
+﻿<html>
+<head>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+
+    <script type="text/javascript">
+    
+        var baseUrl = "http://localhost:9001/api/ExpenseCalculator";
+
+        function UpdateExpense() {
+            var url = baseUrl + "/CreateExpense";
+            var GUID = "";
+            var id = $('#ExpenseDataId').val();
+            //alert(id);
+            if (id != "" && id != undefined && id != null) {
+                url = baseUrl + "/UpdateExpense";
+                GUID = id;
+            }
+
+            //alert($('#Email_Id').val());
+            var msg = {
+                //"GUID": GUID,
+                "expenseDataId": GUID,
+                "expenseTypeId": $('#expensetype-dropdown').val(),
+                "purchaseStoreId": $('#store-dropdown').val(),
+                "expenseDate": $('#datepicker').val(),
+                "spentAmount": $('#spentAmount').val()
+
+            };
+            var data = JSON.stringify(msg);
+            alert(data);
+            alert(url);
+            $.ajax({
+                type: "POST", //GET or POST or PUT or DELETE verb
+                url: url, // Location of the service
+                data: msg, //Data sent to server
+                contenttype: "application/json; charset=utf-8", // content type sent to server
+                success: function (data) {
+                    alert(data);
+                    //On Successfull service call
+                    ServiceSucceeded(data);
+                },
+                error: function (data) {
+                    ServiceFailed(data); // When Service call fails
+                }
+            });
+        }
+
+        function ServiceSucceeded(data) {
+
+            alert("Record successfully submitted");
+            window.location = "ExpenseList.html";
+
+        }
+
+        function ServiceFailed(data) {
+            alert('Service call failed: ' +
+                  data.status + '' + data.statusText);
+        }
+
+
+        function GetExpenseDetails(id) {
+            //var Id = id;
+            alert(id);
+            $.ajax({
+                type: "GET", //GET or POST or PUT or DELETE verb                
+                url: baseUrl + "/GetExpenseDetails" + "?id="+id,
+                
+                contenttype: "application/json; charset=utf-8", // content type sent to server
+
+                success: function (result) {//On Successfull service call
+                  populateFields(result);
+                },
+                error: function (result) {
+                    // show errors
+                }
+            });
+
+        }
+        function populateFields(result) {
+            //alert(result.expenseTypeName);
+           
+            $('#expensetype-dropdown').val(result.expenseTypeId);
+            $('#store-dropdown').val(result.purchaseStoreId);
+            $('#datepicker').val(result.expenseDate);
+            $('#spentAmount').val(result.spentAmount);
+
+
+
+            //set the hidden field for dealer id
+            $('#ExpenseDataId').val(result.expenseDataId);
+        }
+        
+
+        function processPage() {
+            var parameters = location.search.substring(1).split("&");
+            var temp = parameters[0].split("=");
+            var id = unescape(temp[1]);
+            alert(id);
+            if (id != "" && id != undefined && id != null) {
+                GetExpenseDetails(id)
+            }
+        }
+        $(document).ready(function (){
+            //var id = $('#ExpenseDataId').val();
+            var dropdown = $("#expensetype-dropdown");
+            var storedropdown = $("#store-dropdown");
+            $("#datepicker").datepicker();
+            dropdown.empty();
+            storedropdown.empty();
+            dropdown.append('<option selected="true">Choose ExpenseType</option>');
+            storedropdown.append('<option selected="true">Choose Stores</option>');
+            //dropdown.prop('selectedIndex', 0);
+            var baseUrl = "http://localhost:9001/api/ExpenseCalculator";
+            var storeUrl = "http://localhost:9001/api/Store";
+            //alert("h");
+            $.ajax({
+                type: "GET",
+                url: baseUrl + "/types",
+                //contenttype: "application/json; charset=utf-8",
+                success: function (data) {
+                    $.each(data, function () {
+                        dropdown.append($("<option />").val(this.expenseTypeId).text(this.expenseTypeName));
+                    });
+
+                    
+                }
+            });
+            $.ajax({
+                type: "GET",
+                url: storeUrl + "/GetStores",
+                //contenttype: "application/json; charset=utf-8",
+                success: function (data) {
+
+                    $.each(data, function () {
+                        storedropdown.append($("<option />").val(this.storeId).text(this.storeName));
+                    });
+
+                   
+                }
+            });
+            
+                processPage()
+            
+        });
+    </script>
+</head>
+
+<body>
+    
+    <table align="center">
+        <tr>
+            <td>
+                <label>Expense Type</label>
+            </td>
+            <td>
+                <select id="expensetype-dropdown" name="expensetype"></select>
+                <input type="hidden" id="expenseTypeId" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>Store Name</label>
+            </td>
+            <td>
+                <select id="store-dropdown" name="Store Name"></select>
+                <input type="hidden" id="storeId" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>Date of Expense</label>
+            </td>
+            <td>
+                <input id="datepicker" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>Spent Amount</label>
+            </td>
+            <td>
+                <input type="text" name="spentAmount" id="spentAmount">
+            </td>
+        </tr>
+
+        <tr>
+
+            <td colspan="2"><input type="submit" value="Submit" onclick="UpdateExpense()"></td>
+        </tr>
+    </table>
+    <input type="hidden" id="ExpenseDataId">
+    
+</body>
+</html>

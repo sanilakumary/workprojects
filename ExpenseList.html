@@ -1,0 +1,138 @@
+﻿<html>
+<head>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $("#startdatepicker").datepicker();
+            $("#enddatepicker").datepicker();
+            //GetExpenses();
+        });
+
+           
+            function GetExpenses() {
+                var baseUrl = "http://localhost:9001/api/ExpenseCalculator";
+                var startDate = $('#startdatepicker').val();
+                var endDate = $('#enddatepicker').val();
+                
+                $.ajax({
+
+                    type: "GET", //GET or POST or PUT or DELETE verb                    
+                    url: baseUrl + "/GetExpenses?startDate=" + startDate + "&endDate=" + endDate,
+                    success: function (result) {
+                        alert(startDate);//On Successfull service call
+                        ServiceSucceeded(result);
+                    },
+                    error: function (result) {
+                        alert("error");
+                        ServiceFailed(result)// When Service call fails
+                    }
+
+                });
+            }
+        
+            
+        function ServiceSucceeded(result) {
+            $.each(result, function (key, value) {
+                //alert(value.expenseTypeName);
+                $("#TableID").append("<tr><td>" + value.expenseTypeName + "</td><td>" + value.purchaseStoreName + "</td><td>" + value.expenseDate + "</td><td> " + value.spentAmount + "</td><td><a href='UpdateExpense.html?id=" + value.expenseDataId + "'>Edit</a></td><td><a href='#' onclick=Delete()>Delete</a></td></tr>");
+                //$('#ExpenseDataId').val() = value.expenseDataId;
+                $("#ExpenseDataId").val(value.expenseDataId);
+            });
+
+        }
+
+        function ServiceFailed(result) {
+            // Show error details
+        }
+        function Delete() {
+            var deleteUrl = "http://localhost:9001/api/ExpenseCalculator";
+            
+            var id = $('#ExpenseDataId').val();
+            alert(id);
+            $.ajax({
+
+                //GET or POST or PUT or DELETE verb                    
+                url: deleteUrl + "/DeleteExpense" + "?id="+id,
+                //alert(url);
+                contenttype: "application/json; charset=utf-8",
+                success: function (data) {
+                    //alert(startDate);//On Successfull service call
+                    //Succeededon(data);
+                    alert("hi");
+                    
+                },
+                error: function (data) {
+                    alert("error");
+                    //alert(url);
+                   // Failed(data)// When Service call fails
+                }
+
+            });
+        }
+
+
+        //function Succeededon(data) {
+            
+        //        //alert(value.expenseTypeName);
+        //        //$("#TableID").append("<tr><td>" + value.expenseTypeName + "</td><td>" + value.purchaseStoreName + "</td><td>" + value.expenseDate + "</td><td> " + value.spentAmount + "</td><td><a href='UpdateExpense.html?id=" + value.expenseDataId + "'>Edit</a></td></tr>");
+        //        alert("Record Deleted successfully ");
+        //        window.location = "ExpenseList.html";
+            
+
+        //}
+
+        //function Failed(data) {
+        //    // Show error details
+        //}
+                
+</script>
+</head>
+<body>
+    <table align="center">
+       
+        <tr>
+            <td>
+                <label>Start Date</label>
+            </td>
+            <td>
+                <input id="startdatepicker" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>End Date</label>
+            </td>
+            <td>
+                <input id="enddatepicker" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button type="submit" onclick="GetExpenses()">Get Expenses</button>
+            </td>
+        </tr>
+
+    </table>
+
+</body>
+<body>
+    <form>
+        <table id="TableID" cellpadding="0" cellspacing="0" border="1" width="400">
+            <tr>
+                <td style="background-color: green; color:white">ExpenseTypeName</td>
+                <td style="background-color: green; color:white">StoreName</td>
+                <td style="background-color: green; color:white">Date Of Expense</td>
+                <td style="background-color: green; color:white">Amount</td>
+                
+                
+            </tr>
+        </table>
+        <input type="hidden" id="ExpenseDataId">
+    </form>
+</body>
+</html>
