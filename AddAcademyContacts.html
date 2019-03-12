@@ -1,0 +1,202 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Page</title>
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript">
+        var baseUrl = "---------------";
+
+        function GetDropDownData() {
+            $.ajax({
+                type: "GET", //GET or POST or PUT or DELETE verb
+                url: baseUrl + "/GetDropDownData", // Location of the service                
+                contentType: "application/json; charset=utf-8", // content type sent to server
+
+                success: function (result) {
+                    //alert(result);
+                    //On Successfull service call
+                    ServiceSucceeded(result);
+                },
+                error: function (result) {
+                    ServiceFailed(result)// When Service call fails
+                }
+            });
+        }
+
+        function ServiceSucceeded(result) {
+            var myDropDownList = $('#myDropDownLisTId');
+            //$.each(result, function (key, value) {
+            //alert(Name);
+            $.each(result, function (key, value) {
+                //alert(value.Name);
+                //myDropDownList.append($("<option />").val(this.GUID).text(this.Name));
+                //myDropDownList.append($("<option>").val(value.GUID).text(value.Name) < "option />");
+
+                myDropDownList.append('<option value="' + value.GUID + '">' + value.Name + '</option>');
+               
+
+            });
+        }
+
+        function UpdateAcademyContact() {
+            var url = baseUrl + "/InsertAcademyContacts";
+            var GUID = "";
+            var id = $('#AcademyContactId').val();
+            if (id != "" && id != undefined && id != null) {
+                url = baseUrl + "/UpdateAcademyContact";
+                GUID = id;
+            }
+          
+            //$('#TextBox').val($("#DropDownList option:selected").text());
+            var msg = {
+                "GUID": GUID,
+                 "AcademyId": $('#myDropDownLisTId').val(),
+                "Name": $('#Name').val(),
+                "WorkPhone": $('#WorkPhone').val(),
+                "CellPhone": $('#CellPhone').val(),
+                "Email_Id": $('#Email').val(),
+                "Other": $('#Other').val()
+            };
+
+            var data = JSON.stringify(msg);
+            //alert(data);
+
+            $.ajax({
+                type: "POST", //GET or POST or PUT or DELETE verb
+                url: url, // Location of the service
+                data: data, //Data sent to server
+                contentType: "application/json; charset=utf-8", // content type sent to server                
+                success: function (result) {
+                    //On Successfull service call
+                    ServiceSucceeded(result);
+                    
+                },
+                error: function (result) {
+                    ServiceFailed(result); // When Service call fails
+                }
+            });
+        }
+
+        //function ServiceSucceeded(result) {
+
+        //    alert("Record successfully submitted");
+        //    window.location = "AcademySegmentList.html";
+
+        //}
+
+        function ServiceFailed(result) {
+            alert('Service call failed: ' +
+                  result.status + '' + result.statusText);
+        }
+
+
+        function GetAcademyContact(id) {
+            $.ajax({
+                type: "GET", //GET or POST or PUT or DELETE verb
+                url: baseUrl + "/GetAcademyContactsbyGuid/" + id, // Location of the service                
+                contentType: "application/json; charset=utf-8", // content type sent to server
+
+                success: function (result) {//On Successfull service call
+                    populateFields(result);
+                },
+                error: function (result) {
+                    // show errors
+                }
+            });
+
+        }
+
+        function populateFields(result) {
+            $('#AcademyId').val(result.AcademyId);
+            $('#Name').val(result.Name);
+            $('#WorkPhone').val(result.WorkPhone);
+            $('#CellPhone').val(result.CellPhone);
+            $('#Email').val(result.Email_Id);
+            $('#Other').val(result.Other);
+            //set the hidden field for academic id
+            $('#AcademyContactId').val(result.GUID);
+        }
+
+        //alert("name");
+        //alert($('#Name').val());
+
+        function processPage() {
+            var parameters = location.search.substring(1).split("&");
+            var temp = parameters[0].split("=");
+            var id = unescape(temp[1]);
+            if (id != "" && id != undefined && id != null) {
+                GetDropDownData()
+                //alert(id);
+                GetAcademyContact(id)
+                // GetAcademySegment(id)
+            }
+        }
+        $(document).ready(
+            function () {
+                processPage()
+            }
+        );
+    </script>
+</head>
+
+<body>
+    <form>
+        <table>  
+            <tr>
+                <td colspan="2"><b>Add/Update Acdemy Info</b></td>                
+            </tr> 
+            <tr>
+                <td colspan="2">&nbsp;</td>
+            </tr>           
+            <tr>
+                <!--<td>AcademyId:</td>
+                <td><input type="text" id="AcademyId"></td>-->
+             
+                <tr><td>AcademyId:</td>
+             <td>
+                 <select id="myDropDownLisTId">
+                <!--<option value = "1">one</option>
+               <option value = "2">two</option>
+               <option value = "3">three</option>
+               <option value = "4">four</option>-->
+
+
+                 </select></td>
+         <!--//ondrop="GetDropDownData()-->
+            </tr>
+           <!-- <tr>
+                <td>StaffId:</td>
+                <td><input type="text" id="StaffId"></td>
+            </tr>-->
+            <tr>
+                <td>Name:</td>
+                <td><input type="text" id="Name"></td>
+            </tr>
+            <tr>
+                <td>WorkPhone:</td>
+                <td><input type="text" id="WorkPhone"></td>
+            </tr>
+            <tr>
+                <td>CellPhone:</td>
+                <td><input type="text" id="CellPhone"></td>
+            </tr>
+            <tr>
+                <td>Email:</td>
+                <td><input type="text" id="Email"></td>
+            </tr>
+            <tr>
+                <td>Other:</td>
+                <td><input type="text" id="Other"></td>
+            </tr>
+            <tr>
+                <td colspan="2">&nbsp;</td>
+            </tr>   
+            <tr>
+               
+                <td colspan="2"><input type="submit" value="Submit" onclick="UpdateAcademyContact()"></td>                
+            </tr>
+        </table>
+        <input type="hidden" id="AcademyContactId">
+    </form>
+</body>
+</html>
