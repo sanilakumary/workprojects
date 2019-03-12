@@ -18,7 +18,7 @@ namespace PCLDAL
 
             SqlConnection connection = new SqlConnection();
             //SqlConnection connection = new SqlConnection(ConfigurationManager.AppSettings["PCLBConnection"]);
-            connection.ConnectionString = @"Database=ChaseProject;Server=manoj-pc;uid=sa;pwd=password@123";
+            
             SqlCommand cmd = new SqlCommand();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.CommandText = "USP_GetProducts";
