@@ -1,0 +1,231 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+/* added for layout*/
+html, body, .layout-content-wrapper{
+    width:100%;
+    height:100%;
+    padding:0px;
+    margin:0px;
+    overflow:hidden;
+    font-family: 'verdana','helvetica','aerial narrow','Times New Roman','Inconsolata', serif;
+    font-size:1em;
+}
+
+.layout-content-header{
+     width:100%;
+     overflow:hidden;
+     height:40px;
+}
+
+.layout-content-body{
+     width:100%;
+     /*height: -moz-calc(100% - 60px);
+     height: -webkit-calc(100% - 60px);*/
+     height: calc(100% - 60px);
+     overflow-y:hidden;
+     overflow-x:hidden;
+     font-size:12px;
+}
+
+.layout-content-header-title{
+     width:100%;
+     overflow:hidden;
+     background-color:#FFFFFF;
+     height:100%;
+     vertical-align:top;
+
+}
+
+.layout-content-header-title-text{
+    font-size:1.4em;
+    color:black;
+    vertical-align:top;
+         border-bottom:1px solid black;
+         padding:5px 0px 5px 0px;
+}
+
+.spanStoreName{
+    float:left;
+    position:absolute;
+}
+
+.spanWebsite{
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.layout-content-header-logo{
+    max-height:32px;
+    float:left;
+    margin-left:5px;
+    margin-right:20px;
+    margin-top:6px;
+    position:absolute;
+}
+
+.layout-content-header-logo-tmp{
+    max-height:32px;    
+    margin-left:5px;
+    margin-right:20px;
+    margin-top:6px;
+    float:left;
+}
+
+.layout-content-tabcontrol-tabs{
+    width:100%;
+    height:25px;
+    background-color:white;
+    border-bottom:1px solid;
+}
+
+.layout-content-tabcontrol-tab{
+    height:18px;
+    text-align:center;
+    font-weight:500;
+    font-size:12px;
+    padding:5px 10px 0 10px;
+    color:white;
+    text-decoration:none;
+    background-color:#989898;
+    margin:2px 0 0 5px;
+    border-top-left-radius:2px;
+    border-top-right-radius:2px;
+    border-top:1px solid black;
+    border-left:1px solid black;
+    border-right:1px solid black;
+}
+
+.layout-content-tabcontrol-tabs .active{
+    background-color:white;
+    margin-top:0px;
+    color:black;
+    height:20px;   
+}
+
+.lefttab{
+    float:left;
+}
+
+.righttab{
+    float:right;
+}
+
+.layout-content-tabcontrol-optionstab{
+    height:20px;
+    text-align:center;
+    padding-top:5px;
+    font-weight:500;
+    font-size:12px;
+    padding-left:20px;
+    padding-right:20px;
+    color:black;
+    cursor:pointer;
+}
+
+.layout-content-tabcontrol-tabicon{
+    width:16px;
+    height:16px;
+    float:left;
+    margin-right:2px;
+} 
+
+.spanUserName{
+/*font-weight:600;*/
+}
+
+/*HTML controls*/
+
+input[type="text"]{
+    padding:2px;
+    margin:0px;
+}
+
+input[type="button"]{
+    padding:4px;
+    margin:0px;
+    background-color:#787878;
+    color:white;
+    border:none;
+    cursor:pointer;
+    box-shadow: 0 4px 2px -2px rgba(0,0,0,0.4);
+    min-width:80px;
+    font-weight:600;
+    font-size:12px;
+}
+
+input[type="button"][disabled] {
+    color:black;
+}
+
+input[type="checkbox"]{
+
+}
+
+input[type="email"]{
+
+}
+
+input[type="password"]{
+    padding:2px;
+    margin:0px;
+}
+
+input[type="radio"]{
+
+}
+
+input[type="submit"]{
+
+}
+
+select{
+
+}
+
+textarea{
+
+}
+
+table{
+
+}
+
+table tr th, table thead tr th{
+
+}
+
+table tr td, table tbody tr td{
+
+}
+
+/***************/
+
+.view-wrapper{
+
+    overflow-y:hidden;
+}
+
+

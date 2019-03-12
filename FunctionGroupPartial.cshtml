@@ -1,0 +1,38 @@
+﻿@model List<CustomUpholstery.Models.FunctionDO>
+
+<div>
+    <div>
+        <table id="adminfunctiongroup-table" class="admin-main-right-panel-attribute-values-datatable">
+
+            <thead>
+                <tr>
+
+                    <th>
+                        ID
+                    </th>
+                    <th>
+                        Description
+
+                    </th>
+                </tr>
+            </thead>
+            @*commenting the working code*@
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td id="txtattributeId">
+                            @Html.DisplayFor(Item => item.ID)
+                        </td>
+                        <td id="txtdescription">
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            @*ends the comment*@
+        </table>
+    </div>
+</div>
+
+

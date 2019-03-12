@@ -1,0 +1,23 @@
+﻿
+@model List<CustomUpholstery.Models.FunctionDO>
+@Styles.Render("~/Content/Admin")
+<input type="hidden" id="PageID" value="Admin" />
+<input type="hidden" id="CompanyCode" value="@ViewBag.CompanyCode" />
+<input type="hidden" id="UserName" value="@ViewBag.Username" />
+
+<div class="view-wrapper">
+    <div class="admin-secondary-tabs">
+        <div class="admin-secondary-tab active">
+            Function<br />Groups
+            <div class="admin-secondary-tab">Functions<br />&nbsp;</div>
+            <div class="admin-secondary-tab">User<br />Maintenance</div>
+            <div class="admin-secondary-tab">Tab Name<br />&nbsp;</div>
+            <div class="admin-secondary-tab">Tab Name<br />&nbsp;</div>
+        </div>
+
+    </div>
+    <div class="admin-workarea">
+    </div>
+</div>
+
+@Scripts.Render("~/bundles/Admin")

@@ -1,0 +1,58 @@
+.view-wrapper{
+
+    overflow-y:hidden;
+}
+
+.admin-secondary-tabs{
+    height:calc(100% - 20px);
+    width:115px;
+    float:left;
+    font-size:0.9em;
+    border:1px solid #989898;
+    border-right:1px solid white;
+    margin-left:5px;
+    padding-top:20px;
+}
+
+.admin-workarea{
+   /*width: -moz-calc(100% - 122px);
+   width: -webkit-calc(100% - 122px);*/
+   width: calc(100% - 122px);
+   height:calc(100% - 0px);
+   float:left;
+   background-color:white;
+}
+
+.admin-secondary-tab{
+    width:calc(100% - 20px);
+    padding:10px 6px 10px 6px;
+    color:white;
+    cursor:pointer;
+    background-color:#989898;
+    float:right;
+    margin-top:5px;
+        border-top-left-radius:2px;
+    border-bottom-left-radius:2px;
+    font-weight:500;
+    font-size:12px;
+}
+
+.admin-secondary-tabs .active{
+    color:black;
+    background-color:white;
+    font-weight:500;
+    width:calc(100% - 16px);
+        font-weight:500;
+    font-size:12px;
+}
+.admin-main-right-panel-attribute-value-details{
+    height:80%;
+    width:100%;    
+    overflow-y:scroll;
+    float:right;
+}
+.admin-main-right-panel-attribute-values-datatable{
+    width:100% !important;
+    
+}
+
