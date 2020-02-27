@@ -104,7 +104,7 @@
             }
         }
         $(document).ready(function (){
-            //var id = $('#ExpenseDataId').val();
+           
             var dropdown = $("#expensetype-dropdown");
             var storedropdown = $("#store-dropdown");
             $("#datepicker").datepicker();
@@ -112,10 +112,10 @@
             storedropdown.empty();
             dropdown.append('<option selected="true">Choose ExpenseType</option>');
             storedropdown.append('<option selected="true">Choose Stores</option>');
-            //dropdown.prop('selectedIndex', 0);
+            
             var baseUrl = "http://localhost:9001/api/ExpenseCalculator";
             var storeUrl = "http://localhost:9001/api/Store";
-            //alert("h");
+            
             $.ajax({
                 type: "GET",
                 url: baseUrl + "/types",
