@@ -13,19 +13,15 @@ namespace ExpenseCalculatorPresentation.Models
 {
     public class StoreClient
     {
-        //private string _url;
+        
         private string _url = "http://localhost:9001/api/Store";
-        //public StoreClient(string url)
-        //{
-        //    _url = url;
-        //}
-        //private string Base_URL = "http://localhost:61978/api/Store";
+       
         public List<Store> GetStores()
         {
             try
             {
                 HttpClient client = new HttpClient();
-                //client.BaseAddress = new Uri(Base_URL);
+                
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 HttpResponseMessage response = client.GetAsync(new Uri($"{_url}/GetStores")).Result;
                 if (response.IsSuccessStatusCode)
