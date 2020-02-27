@@ -239,19 +239,7 @@ namespace ExpenseCalculatorWebApi.ExpenseCalculatorDataAccess
             return expData;
         }
 
-        //start copying
-        #region Method : CreateExpense
-        ///<summary> 
-        ///<newpara> Method name		: CreateExpense </newpara>
-        ///<newpara> Date of Creation	: 09/20/2008 </newpara>
-        ///<newpara> Author				: Manoj </newpara>   
-        ///<newpara> Description		: This method will call the CreateExpense stored procedure to add expense details. </newpara>
-        ///</summary>
-        ///<param name = "expData">object</param>
-        ///<param name = "errorCode">string</param> 
-        ///<returns></returns>
-        ///<exception></exception >
-        ///<remarks></remarks>
+       
         public bool CreateExpense(ExpenseData expData)
         {
            
@@ -294,21 +282,10 @@ namespace ExpenseCalculatorWebApi.ExpenseCalculatorDataAccess
            
         }
 
-        #endregion
+       
 
 
-        #region Method : UpdateExpense
-        ///<summary> 
-        ///<newpara> Method name		: UpdateExpense </newpara>
-        ///<newpara> Date of Creation	: 09/20/2008 </newpara>
-        ///<newpara> Author				: Manoj </newpara>   
-        ///<newpara> Description		: This method will call the UpdateExpense stored procedure to update expense details. </newpara>
-        ///</summary>
-        ///<param name = "expData">object</param> 
-        ///<param name = "errorCode">string</param> 
-        ///<returns></returns>
-        ///<exception></exception >
-        ///<remarks></remarks>
+      
         public string UpdateExpense(ExpenseData expData)
         {
             int result;
@@ -345,20 +322,7 @@ namespace ExpenseCalculatorWebApi.ExpenseCalculatorDataAccess
             }
         }
 
-        #endregion
-
-        #region Method : DeleteExpense
-        ///<summary> 
-        ///<newpara> Method name		: DeleteExpense </newpara>
-        ///<newpara> Date of Creation	: 09/20/2008 </newpara>
-        ///<newpara> Author				: Manoj </newpara>   
-        ///<newpara> Description		: This method will call the DeleteExpense stored procedure to delete expenses. </newpara>
-        ///</summary>
-        ///<param name = "expDataCode">int</param>
-        ///<param name = "errorCode">string</param> 
-        ///<returns></returns>
-        ///<exception></exception >
-        ///<remarks></remarks>
+       
         public string DeleteExpense(int id)
         {
             int result;
@@ -390,19 +354,8 @@ namespace ExpenseCalculatorWebApi.ExpenseCalculatorDataAccess
             }
         }
 
-        #endregion
-
-        #region Method : GetExpenseTypes
-        ///<summary> 
-        ///<newpara> Method name		: GetExpenseTypes </newpara>
-        ///<newpara> Date of Creation	: 09/20/2008 </newpara>
-        ///<newpara> Author				: Manoj </newpara>   
-        ///<newpara> Description		: This method will call the GetExpenseTypes stored procedure to get all the expense types. </newpara>
-        ///</summary>
-        ///<param name = "errorCode">string</param> 
-        ///<returns>Generic List of ExpenseType</returns>
-        ///<exception></exception >
-        ///<remarks></remarks>
+        
+      
         public List<ExpenseType> GetExpenseTypes()
         {
             //errorCode = null;
@@ -450,20 +403,7 @@ namespace ExpenseCalculatorWebApi.ExpenseCalculatorDataAccess
             return expenseTypeCollection;
         }
 
-        #endregion
-
-
-        #region Method : GetStores
-        ///<summary> 
-        ///<newpara> Method name		: GetStores </newpara>
-        ///<newpara> Date of Creation	: 09/20/2008 </newpara>
-        ///<newpara> Author				: Manoj </newpara>   
-        ///<newpara> Description		: This method will call the GetStores stored procedure to get all the stores. </newpara>
-        ///</summary>
-        ///<param name = "errorCode">string</param> 
-        ///<returns>Generic List of Store</returns>
-        ///<exception></exception >
-        ///<remarks></remarks>
+      
         public List<Store> GetStores()
         {
             //errorCode = null;
@@ -556,6 +496,6 @@ namespace ExpenseCalculatorWebApi.ExpenseCalculatorDataAccess
             }
             return reportTypeCollection;
         }
-        //end copying
+       
     }
 }
