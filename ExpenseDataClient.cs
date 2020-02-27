@@ -30,10 +30,9 @@ namespace ExpenseCalculatorPresentation.Models
             {
                 var client = new HttpClient();               
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                //http://localhost:61978/api/ExpenseCalculator/GetExpenses/?startDate=2008-08-14&endDate=2008-10-15
+               
                 var response = client.GetAsync(new Uri($"{_url}/GetExpenses?startDate={startDate.ToString("o", CultureInfo.InvariantCulture)}&endDate={endDate.ToString("o", CultureInfo.InvariantCulture)}")).Result;
-                //var response = client.GetAsync(new Uri(@"http://localhost:61978/api/ExpenseCalculator/GetExpenses?startDate=2008-08-14&endDate=2008-10-15")).Result;
-                //var response = client.GetAsync(new Uri($"{_url}/types")).Result;
+               
 
                 if (response.IsSuccessStatusCode)
                     return response.Content.ReadAsAsync<List<ExpenseData>>().Result;
@@ -51,10 +50,9 @@ namespace ExpenseCalculatorPresentation.Models
             {
                 var client = new HttpClient();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                //http://localhost:61978/api/ExpenseCalculator/GetExpenses/?startDate=2008-08-14&endDate=2008-10-15
+                
                 var response = client.GetAsync(new Uri($"{_url}/GetExpenseDetails?id={id}")).Result;
-                //var response = client.GetAsync(new Uri(@"http://localhost:61978/api/ExpenseCalculator/GetExpenses?startDate=2008-08-14&endDate=2008-10-15")).Result;
-                //var response = client.GetAsync(new Uri($"{_url}/types")).Result;
+                
 
                 if (response.IsSuccessStatusCode)
                     return response.Content.ReadAsAsync<ExpenseData>().Result;
@@ -86,24 +84,7 @@ namespace ExpenseCalculatorPresentation.Models
                 return null;
             }
         }
-        //public ExpenseData GetExpenseDetails(int id)
-        //{
-        //    try
-        //    {
-        //        HttpClient client = new HttpClient();
-        //        client.BaseAddress = new Uri(_url);
-        //        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-        //        HttpResponseMessage response = client.GetAsync("GetExpenseDetails/" + id).Result;
-
-        //        if (response.IsSuccessStatusCode)
-        //            return response.Content.ReadAsAsync<ExpenseData>().Result;
-        //        return null;
-        //    }
-        //    catch
-        //    {
-        //        return null;
-        //    }
-        //}
+       
         public bool CreateExpense(ExpenseData expensedata)        
         {
             try
