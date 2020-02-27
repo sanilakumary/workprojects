@@ -65,12 +65,7 @@ namespace ExpenseCalculatorPresentation.Controllers
             return RedirectToAction("Index");
         }
 
-        //public ActionResult Delete(int id)
-        //{
-        //    ExpenseDataClient CC = new ExpenseDataClient(_url);
-        //    CC.DeleteExpense(id);
-        //    return RedirectToAction("Index");
-        //}
+        
        
        
         public ActionResult Delete(int id)
