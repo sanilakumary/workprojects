@@ -38,44 +38,15 @@ namespace PCLBBL
            SelloutDAL sdal = new SelloutDAL();
            return sdal.GetManufactDetailsName(manufactName);
        }
-       //public List<Sellout> GetProdModId()
-       //{
-       //    SelloutDAL sdal = new SelloutDAL();
-       //    return sdal.GetProdModId();
-       //}
+      
        public int DeleteMultipleRecords(List<string> idCollection)
        {
            SelloutDAL sdal = new SelloutDAL(); 
            return sdal.DeleteMultipleRecords(idCollection);
        }
-       //public int InsertDisplay(Sellout sellout)
-       //{
-       //    int Results;
-       //    SelloutDAL sdal = new SelloutDAL();
-       //    Results = sdal.InsertDisplay(sellout);
-       //    return Results;
-       //}
-       //public List<Sellout> GetDisplay()
-       //{
-       //    SelloutDAL sdal = new SelloutDAL();
-       //    return sdal.GetDisplay();
-       //}
+      
 
-       //public int UpdateDisplay(Sellout sellout)
-       //{
-       //    SelloutDAL sdal = new SelloutDAL();
-       //    return sdal.UpdateDisplay(sellout);
-       //}
-       //public Sellout GetDisplayDetails(int displayid)
-       //{
-       //    SelloutDAL sdal = new SelloutDAL();
-       //    return sdal.GetDisplayDetails(displayid);
-       //}
-       //public int DeleteMultipleRecordsDisplay(List<string> idCollection)
-       //{
-       //    SelloutDAL sdal = new SelloutDAL();
-       //    return sdal.DeleteMultipleRecordsDisplay(idCollection);
-       //}
+      
        public List<Sellout> GetManufactureId()
        {
            SelloutDAL sdal = new SelloutDAL();
