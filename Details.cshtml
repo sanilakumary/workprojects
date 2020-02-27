@@ -77,39 +77,7 @@
             </table>
             
            
-            //adding mvc grid
-
-
-            @*@using GridMvc.Html
-
-                 <div class="code-cut">
-                     @if (Model != null)
-                     {
-                         foreach (var i in Model.ExpenseData)
-                         {
-
-                         @Html.Grid().Columns(columns =>
-                         {
-
-                        columns.Add(@i.expenseTypeName).Titled("ExpenseTypeName").Filterable(true);
-                        columns.Add(@i.purchaseStoreName).Titled("StoreName").Filterable(true);
-                        columns.Add(@i.expenseDate).Titled("ExpenseDate").Filterable(true);
-                        columns.Add(@i.spentAmount).Titled("Amount").Filterable(true);
-
-                        columns.Add()
-                        .Encoded(false)
-                        .Sanitized(false)
-                        .SetWidth(30)
-                        .RenderValueAs(o => Html.ActionLink("Edit", "Edit", new { id = i.expenseDataId }));
-
-                }).WithPaging(3).Sortable(true).WithGridItemsCount("Total Personal")
-
-
-
-                     }
-                 </div>*@
-
-            //end mvc grid code
+          
 
 
             }
