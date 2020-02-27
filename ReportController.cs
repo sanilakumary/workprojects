@@ -71,10 +71,6 @@ namespace ExpenseCalculatorPresentation.Controllers
 
             }
 
-
-           // Response.Redirect("~/Reports/ReportDetails.aspx?expType=" + expType + "&startDate=" + startDate + "&endDate=" + endDate);
-            //adding code above
-            
             var expenseDataClient = new ExpenseDataClient(_url);
             model.ExpenseData = expenseDataClient.GetExpenses(expenseTypeId, startDate, endDate);
 
