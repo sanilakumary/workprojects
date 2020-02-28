@@ -14,7 +14,7 @@ namespace ExpenseCalculatorPresentation.Models
 {
     public class ReportClient
     {
-        //private string Base_URL = "http://localhost:61978/api/Report";
+        
 
 
         private string _url = "http://localhost:61978/api/Report";
